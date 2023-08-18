@@ -1,6 +1,7 @@
 package task_3;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,19 +11,10 @@ public class Main {
     }
 
     public static String sortNumbers(String[] arr) {
-
-        String str = String.join(",", arr);
-
-        String[] numbers = str.split(",");
-
-        int[] intNumbers = new int[numbers.length];
-        for (int i = 0; i < numbers.length; i++) {
-            intNumbers[i] = Integer.parseInt(numbers[i].trim());
-        }
-
-        Arrays.sort(intNumbers);
-
-        return String.join(", ", Arrays.toString(intNumbers)
-                .replaceAll("\\[|\\]|\\s", ""));
+        return Arrays.stream(arr)
+                .flatMap(s -> Arrays.stream(s.split(", ")))
+                .mapToInt(Integer::parseInt)
+                .sorted()                .mapToObj(String::valueOf)
+                .collect(Collectors.joining(", "));
     }
 }

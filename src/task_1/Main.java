@@ -3,6 +3,8 @@ package task_1;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,14 +14,9 @@ public class Main {
     }
 
     public static String getIndexedNames(List<String> names) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < names.size(); i += 2) {
-            int index = i + 1;
-            stringBuilder.append(index).append(". ").append(names.get(i));
-            if (i < names.size() - 2) {
-                stringBuilder.append(", ");
-            }
-        }
-        return stringBuilder.toString();
+        return IntStream.range(0, names.size())
+                .filter(i -> i % 2 == 0)
+                .mapToObj(i -> (i + 1) + ". " + names.get(i))
+                .collect(Collectors.joining(", "));
     }
 }
